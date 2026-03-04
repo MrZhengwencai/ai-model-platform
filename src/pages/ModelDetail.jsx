@@ -25,6 +25,58 @@ function ModelDetail() {
         gpt35: '输入: $0.0015/1K tokens, 输出: $0.002/1K tokens'
       },
       docs: 'https://platform.openai.com/docs',
+      quickStart: [
+        {
+          title: '1. 注册 OpenAI 账号',
+          content: '访问 https://platform.openai.com/signup 注册账号，使用邮箱或 Google 账号登录。'
+        },
+        {
+          title: '2. 创建 API Key',
+          content: '登录后进入 https://platform.openai.com/api-keys，点击 "Create new secret key" 创建新的 API Key。⚠️ 重要：API Key 只显示一次，请立即复制并妥善保管！'
+        },
+        {
+          title: '3. 充值余额',
+          content: '在 https://platform.openai.com/account/billing 添加付款方式并充值。GPT-4 需要至少充值 $5 才能使用。'
+        },
+        {
+          title: '4. 设置使用限额',
+          content: '在 Billing 设置中设置每月使用限额，避免意外超支。建议先设置较低限额测试。'
+        },
+        {
+          title: '5. 安装 SDK',
+          content: '根据你的编程语言安装对应的 SDK。'
+        }
+      ],
+      productionTips: {
+        security: [
+          '永远不要将 API Key 硬编码在代码中',
+          '使用环境变量或密钥管理服务（如 AWS Secrets Manager、HashiCorp Vault）',
+          '在生产环境中使用 HTTPS 传输所有 API 请求',
+          '实施 API Key 轮换策略，定期更换密钥',
+          '为不同的环境（开发、测试、生产）使用不同的 API Key'
+        ],
+        performance: [
+          '使用流式响应（stream=True）提升用户体验',
+          '实现请求重试机制（指数退避算法）',
+          '设置合理的 timeout 参数（建议 30-60 秒）',
+          '使用连接池复用 HTTP 连接',
+          '批量处理请求以减少 API 调用次数'
+        ],
+        cost: [
+          '使用 GPT-3.5-turbo 处理简单任务，GPT-4 处理复杂任务',
+          '设置 max_tokens 参数控制输出长度',
+          '优化 prompt 减少 token 使用量',
+          '监控 API 使用量和成本',
+          '实现缓存机制避免重复请求'
+        ],
+        reliability: [
+          '实现错误处理和降级策略',
+          '设置速率限制（Rate Limit）保护后端服务',
+          '使用队列系统处理高并发请求',
+          '记录详细的日志用于问题排查',
+          '设置健康检查和告警机制'
+        ]
+      },
       languages: {
         python: {
           install: 'pip install openai',
@@ -161,6 +213,58 @@ public class GPTExample {
         haiku: '输入: $0.25/1M tokens, 输出: $1.25/1M tokens'
       },
       docs: 'https://docs.anthropic.com',
+      quickStart: [
+        {
+          title: '1. 注册 Anthropic 账号',
+          content: '访问 https://console.anthropic.com/ 注册账号。'
+        },
+        {
+          title: '2. 创建 API Key',
+          content: '在控制台的 API Keys 页面创建新的 API Key。⚠️ 重要：API Key 只显示一次，请立即复制并妥善保管！'
+        },
+        {
+          title: '3. 充值余额',
+          content: '在 Billing 页面添加付款方式并充值。Claude 3 Opus 需要预付费。'
+        },
+        {
+          title: '4. 选择模型版本',
+          content: '根据需求选择：Claude 3 Opus（最强）、Sonnet（平衡）、Haiku（最快最便宜）。'
+        },
+        {
+          title: '5. 安装 SDK',
+          content: '根据你的编程语言安装对应的 SDK。'
+        }
+      ],
+      productionTips: {
+        security: [
+          '使用环境变量或密钥管理服务存储 API Key',
+          '实施 API Key 轮换策略',
+          '在生产环境中使用 HTTPS',
+          '设置使用限额和告警',
+          '为不同环境使用不同的 API Key'
+        ],
+        performance: [
+          '使用流式响应提升用户体验',
+          '实现请求重试机制（指数退避）',
+          '设置合理的 timeout 参数',
+          '利用 Claude 的长上下文窗口处理大文档',
+          '使用 Haiku 处理简单任务，Opus 处理复杂任务'
+        ],
+        cost: [
+          '根据任务复杂度选择合适的模型版本',
+          '设置 max_tokens 控制输出长度',
+          '优化 prompt 减少 token 使用',
+          '监控 API 使用量和成本',
+          '实现缓存机制'
+        ],
+        reliability: [
+          '实现错误处理和降级策略',
+          '设置速率限制',
+          '使用队列系统处理高并发',
+          '记录详细日志',
+          '设置健康检查和告警'
+        ]
+      },
       languages: {
         python: {
           install: 'pip install anthropic',
@@ -241,9 +345,9 @@ streamChat();`
   }'`
         },
         java: {
-          install: 'implementation "com.anthropic:anthropic-java"',
+          install: 'implementation "com.anthropic:anthropic-java-sdk"',
           code: `import com.anthropic.AnthropicClient;
-import com.anthropic.models.messages.*;
+import com.anthropic.types.*;
 
 public class ClaudeExample {
     public static void main(String[] args) {
@@ -288,6 +392,58 @@ public class ClaudeExample {
         pro: '免费版: 15次/分钟, Pro版: $0.00025/1K字符'
       },
       docs: 'https://ai.google.dev/docs',
+      quickStart: [
+        {
+          title: '1. 创建 Google Cloud 项目',
+          content: '访问 https://console.cloud.google.com/ 创建新项目或选择现有项目。'
+        },
+        {
+          title: '2. 启用 Gemini API',
+          content: '在 Google Cloud Console 中搜索并启用 "Generative Language API"。'
+        },
+        {
+          title: '3. 创建 API Key',
+          content: '在 API & Services > Credentials 页面创建 API Key。⚠️ 注意：在生产环境中应使用 OAuth 2.0 而非 API Key。'
+        },
+        {
+          title: '4. 设置配额',
+          content: '在 Quotas 页面设置 API 调用配额，避免超出限制。'
+        },
+        {
+          title: '5. 安装 SDK',
+          content: '根据你的编程语言安装对应的 SDK。'
+        }
+      ],
+      productionTips: {
+        security: [
+          '生产环境使用 OAuth 2.0 而非 API Key',
+          '实施密钥轮换策略',
+          '使用 HTTPS 传输所有请求',
+          '设置 API 使用限额和告警',
+          '使用 IAM 角色控制访问权限'
+        ],
+        performance: [
+          '使用流式响应提升用户体验',
+          '实现请求重试机制',
+          '利用 Gemini 的多模态能力',
+          '使用 Gemini 1.5 Pro 处理长文本',
+          '批量处理请求'
+        ],
+        cost: [
+          '监控 API 使用量和成本',
+          '设置配额限制',
+          '优化 prompt 减少字符使用',
+          '使用缓存机制',
+          '选择合适的模型版本'
+        ],
+        reliability: [
+          '实现错误处理和降级策略',
+          '设置速率限制',
+          '使用队列系统',
+          '记录详细日志',
+          '设置健康检查'
+        ]
+      },
       languages: {
         python: {
           install: 'pip install google-generativeai',
@@ -398,6 +554,58 @@ public class GeminiExample {
         standard: '免费版: 100次/天, Pro版: ¥0.012/千tokens'
       },
       docs: 'https://cloud.baidu.com/doc/WENXINWORKSHOP',
+      quickStart: [
+        {
+          title: '1. 注册百度智能云账号',
+          content: '访问 https://cloud.baidu.com/ 注册账号并完成实名认证。'
+        },
+        {
+          title: '2. 创建应用',
+          content: '在千帆大模型平台创建应用，获取 API Key 和 Secret Key。'
+        },
+        {
+          title: '3. 获取 Access Token',
+          content: '使用 API Key 和 Secret Key 调用认证接口获取 Access Token（有效期30天）。'
+        },
+        {
+          title: '4. 选择模型版本',
+          content: 'ERNIE-Bot-4（最强）、ERNIE-Bot-turbo（最快）、ERNIE-Speed（最便宜）。'
+        },
+        {
+          title: '5. 安装 SDK',
+          content: '根据你的编程语言安装对应的 SDK。'
+        }
+      ],
+      productionTips: {
+        security: [
+          '使用环境变量存储 API Key 和 Secret Key',
+          '实施密钥轮换策略',
+          '定期刷新 Access Token',
+          '使用 HTTPS 传输所有请求',
+          '设置 IP 白名单限制访问'
+        ],
+        performance: [
+          '使用流式响应提升用户体验',
+          '实现请求重试机制',
+          '缓存 Access Token 避免频繁刷新',
+          '使用连接池复用 HTTP 连接',
+          '批量处理请求'
+        ],
+        cost: [
+          '根据任务复杂度选择合适的模型版本',
+          '设置 max_tokens 控制输出长度',
+          '优化 prompt 减少 token 使用',
+          '监控 API 使用量和成本',
+          '实现缓存机制'
+        ],
+        reliability: [
+          '实现错误处理和降级策略',
+          '设置速率限制',
+          '使用队列系统',
+          '记录详细日志',
+          '设置健康检查'
+        ]
+      },
       languages: {
         python: {
           install: 'pip install qianfan',
@@ -537,6 +745,58 @@ public class ErnieExample {
         turbo: '免费版: 20次/分钟, Plus版: ¥0.008/千tokens'
       },
       docs: 'https://help.aliyun.com/zh/dashscope',
+      quickStart: [
+        {
+          title: '1. 注册阿里云账号',
+          content: '访问 https://www.aliyun.com/ 注册账号并完成实名认证。'
+        },
+        {
+          title: '2. 开通 DashScope 服务',
+          content: '在阿里云控制台搜索并开通 "DashScope 灵积" 服务。'
+        },
+        {
+          title: '3. 创建 API Key',
+          content: '在 DashScope 控制台创建 API Key。⚠️ 重要：API Key 只显示一次，请立即复制并妥善保管！'
+        },
+        {
+          title: '4. 选择模型版本',
+          content: 'qwen-max（最强）、qwen-plus（平衡）、qwen-turbo（最快最便宜）。'
+        },
+        {
+          title: '5. 安装 SDK',
+          content: '根据你的编程语言安装对应的 SDK。'
+        }
+      ],
+      productionTips: {
+        security: [
+          '使用环境变量存储 API Key',
+          '实施密钥轮换策略',
+          '使用 HTTPS 传输所有请求',
+          '设置 IP 白名单限制访问',
+          '为不同环境使用不同的 API Key'
+        ],
+        performance: [
+          '使用流式响应提升用户体验',
+          '实现请求重试机制',
+          '使用连接池复用 HTTP 连接',
+          '批量处理请求',
+          '利用 DashScope 的长文本能力'
+        ],
+        cost: [
+          '根据任务复杂度选择合适的模型版本',
+          '设置 max_tokens 控制输出长度',
+          '优化 prompt 减少 token 使用',
+          '监控 API 使用量和成本',
+          '实现缓存机制'
+        ],
+        reliability: [
+          '实现错误处理和降级策略',
+          '设置速率限制',
+          '使用队列系统',
+          '记录详细日志',
+          '设置健康检查'
+        ]
+      },
       languages: {
         python: {
           install: 'pip install dashscope',
@@ -666,6 +926,58 @@ public class QwenExample {
         lite: '免费版: 100次/天, Pro版: ¥0.006/千tokens'
       },
       docs: 'https://cloud.tencent.com/document/product/1729',
+      quickStart: [
+        {
+          title: '1. 注册腾讯云账号',
+          content: '访问 https://cloud.tencent.com/ 注册账号并完成实名认证。'
+        },
+        {
+          title: '2. 开通混元大模型服务',
+          content: '在腾讯云控制台搜索并开通 "混元大模型" 服务。'
+        },
+        {
+          title: '3. 获取密钥',
+          content: '在访问管理 > API密钥管理页面获取 SecretId 和 SecretKey。'
+        },
+        {
+          title: '4. 选择模型版本',
+          content: 'hunyuan-pro（最强）、hunyuan-lite（最快最便宜）。'
+        },
+        {
+          title: '5. 安装 SDK',
+          content: '根据你的编程语言安装对应的 SDK。'
+        }
+      ],
+      productionTips: {
+        security: [
+          '使用环境变量存储 SecretId 和 SecretKey',
+          '实施密钥轮换策略',
+          '使用 HTTPS 传输所有请求',
+          '设置 IP 白名单限制访问',
+          '为不同环境使用不同的密钥'
+        ],
+        performance: [
+          '使用流式响应提升用户体验',
+          '实现请求重试机制',
+          '使用连接池复用 HTTP 连接',
+          '批量处理请求',
+          '合理设置超时时间'
+        ],
+        cost: [
+          '根据任务复杂度选择合适的模型版本',
+          '设置 max_tokens 控制输出长度',
+          '优化 prompt 减少 token 使用',
+          '监控 API 使用量和成本',
+          '实现缓存机制'
+        ],
+        reliability: [
+          '实现错误处理和降级策略',
+          '设置速率限制',
+          '使用队列系统',
+          '记录详细日志',
+          '设置健康检查'
+        ]
+      },
       languages: {
         python: {
           install: 'pip install tencentcloud-hunyuan',
@@ -805,6 +1117,542 @@ public class HunyuanExample {
         }
       }
     },
+    spark: {
+      name: '讯飞星火',
+      icon: '✨',
+      provider: '科大讯飞',
+      description: '科大讯飞推出的认知大模型，具有强大的中文理解和生成能力，支持多模态交互，在教育、医疗等领域有广泛应用。',
+      features: [
+        '强大的中文理解和生成能力',
+        '多模态支持（文本、语音、图像）',
+        '知识库问答能力',
+        '长文本处理',
+        '流式响应支持',
+        '多轮对话能力'
+      ],
+      pricing: {
+        lite: '免费版: 500万tokens/月, Pro版: ¥0.015/千tokens'
+      },
+      docs: 'https://www.xfyun.cn/doc/spark',
+      quickStart: [
+        {
+          title: '1. 注册讯飞开放平台账号',
+          content: '访问 https://www.xfyun.cn/ 注册账号并完成实名认证。'
+        },
+        {
+          title: '2. 创建应用',
+          content: '在控制台创建应用，获取 APPID、APISecret 和 APIKey。'
+        },
+        {
+          title: '3. 激活星火认知大模型服务',
+          content: '在应用管理中开通"星火认知大模型"服务。'
+        },
+        {
+          title: '4. 选择模型版本',
+          content: 'Spark Pro（最强）、Spark Lite（最快最便宜）、Spark Max（最强版本）。'
+        },
+        {
+          title: '5. 安装 SDK',
+          content: '根据你的编程语言安装对应的 SDK。'
+        }
+      ],
+      productionTips: {
+        security: [
+          '使用环境变量存储 APPID、APISecret 和 APIKey',
+          '实施密钥轮换策略',
+          '使用 HTTPS 传输所有请求',
+          '设置 IP 白名单限制访问',
+          '为不同环境使用不同的密钥'
+        ],
+        performance: [
+          '使用流式响应提升用户体验',
+          '实现请求重试机制',
+          '使用连接池复用 HTTP 连接',
+          '批量处理请求',
+          '合理设置超时时间'
+        ],
+        cost: [
+          '根据任务复杂度选择合适的模型版本',
+          '设置 max_tokens 控制输出长度',
+          '优化 prompt 减少 token 使用',
+          '监控 API 使用量和成本',
+          '实现缓存机制'
+        ],
+        reliability: [
+          '实现错误处理和降级策略',
+          '设置速率限制',
+          '使用队列系统',
+          '记录详细日志',
+          '设置健康检查'
+        ]
+      },
+      languages: {
+        python: {
+          install: 'pip install websocket-client',
+          setup: '# 创建 .env 文件\nAPPID=your-app-id\nAPISecret=your-api-secret\nAPIKey=your-api-key',
+          code: `import os
+import json
+import hashlib
+import base64
+import hmac
+import time
+import websocket
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class SparkClient:
+    def __init__(self, appid=None, api_secret=None, api_key=None):
+        self.appid = appid or os.getenv("APPID")
+        self.api_secret = api_secret or os.getenv("APISecret")
+        self.api_key = api_key or os.getenv("APIKey")
+        
+        if not all([self.appid, self.api_secret, self.api_key]):
+            raise ValueError("APPID, APISecret, and APIKey are required")
+        
+        self.url = self._generate_url()
+    
+    def _generate_url(self):
+        host = "spark-api.xf-yun.com"
+        path = "/v3.5/chat"
+        timestamp = str(int(time.time()))
+        
+        signature_origin = f"host: {host}\\ndate: {timestamp}\\nGET {path} HTTP/1.1"
+        signature_sha = hmac.new(
+            self.api_secret.encode('utf-8'),
+            signature_origin.encode('utf-8'),
+            digestmod=hashlib.sha256
+        ).digest()
+        signature = base64.b64encode(signature_sha).decode(encoding='utf-8')
+        
+        authorization_origin = f'api_key="{self.api_key}", algorithm="hmac-sha256", headers="host date request-line", signature="{signature}"'
+        authorization = base64.b64encode(authorization_origin.encode('utf-8')).decode(encoding='utf-8')
+        
+        return f"wss://{host}{path}?authorization={authorization}&date={timestamp}&host={host}"
+    
+    def chat(self, messages, model="spark-pro", temperature=0.7, max_tokens=1500):
+        data = {
+            "header": {
+                "app_id": self.appid,
+                "uid": "user-001"
+            },
+            "parameter": {
+                "chat": {
+                    "domain": model,
+                    "temperature": temperature,
+                    "max_tokens": max_tokens
+                }
+            },
+            "payload": {
+                "message": {
+                    "text": messages
+                }
+            }
+        }
+        
+        ws = websocket.create_connection(self.url)
+        ws.send(json.dumps(data))
+        
+        response_text = ""
+        while True:
+            message = ws.recv()
+            if message:
+                data = json.loads(message)
+                if data.get("header", {}).get("code") == 0:
+                    choices = data.get("payload", {}).get("choices", {})
+                    if choices.get("status") == 2:
+                        ws.close()
+                        break
+                    text = choices.get("text", [])
+                    if text:
+                        response_text += text[0].get("content", "")
+        
+        return response_text
+    
+    def stream_chat(self, messages, model="spark-pro", temperature=0.7, max_tokens=1500):
+        data = {
+            "header": {
+                "app_id": self.appid,
+                "uid": "user-001"
+            },
+            "parameter": {
+                "chat": {
+                    "domain": model,
+                    "temperature": temperature,
+                    "max_tokens": max_tokens
+                }
+            },
+            "payload": {
+                "message": {
+                    "text": messages
+                }
+            }
+        }
+        
+        ws = websocket.create_connection(self.url)
+        ws.send(json.dumps(data))
+        
+        while True:
+            message = ws.recv()
+            if message:
+                data = json.loads(message)
+                if data.get("header", {}).get("code") == 0:
+                    choices = data.get("payload", {}).get("choices", {})
+                    if choices.get("status") == 2:
+                        ws.close()
+                        break
+                    text = choices.get("text", [])
+                    if text:
+                        yield text[0].get("content", "")
+
+if __name__ == "__main__":
+    client = SparkClient()
+    
+    messages = [
+        {"role": "user", "content": "你好！请帮我写一个Python函数来计算斐波那契数列。"}
+    ]
+    
+    response = client.chat(messages, model="spark-pro")
+    print("Response:", response)
+    
+    print("\\n流式响应:")
+    for chunk in client.stream_chat(
+        messages=[{"role": "user", "content": "给我讲一个简短的故事"}],
+        model="spark-lite"
+    ):
+        print(chunk, end="", flush=True)
+    print()`
+        },
+        javascript: {
+          install: 'npm install ws crypto-js',
+          setup: '// 创建 .env 文件\nAPPID=your-app-id\nAPISecret=your-api-secret\nAPIKey=your-api-key',
+          code: `const WebSocket = require('ws');
+const CryptoJS = require('crypto-js');
+const crypto = require('crypto');
+
+class SparkClient {
+  constructor(appid, apiSecret, apiKey) {
+    this.appid = appid;
+    this.apiSecret = apiSecret;
+    this.apiKey = apiKey;
+    this.url = this.generateUrl();
+  }
+
+  generateUrl() {
+    const host = 'spark-api.xf-yun.com';
+    const path = '/v3.5/chat';
+    const timestamp = Math.floor(Date.now() / 1000);
+
+    const signatureOrigin = 'host: ' + host + '\\ndate: ' + timestamp + '\\nGET ' + path + ' HTTP/1.1';
+    const signatureSha = CryptoJS.HmacSHA256(signatureOrigin, this.apiSecret).toString(CryptoJS.enc.Base64);
+    const authorizationOrigin = 'api_key="' + this.apiKey + '", algorithm="hmac-sha256", headers="host date request-line", signature="' + signatureSha + '"';
+    const authorization = Buffer.from(authorizationOrigin).toString('base64');
+
+    return 'wss://' + host + path + '?authorization=' + authorization + '&date=' + timestamp + '&host=' + host;
+  }
+
+  async chat(messages, model = 'spark-pro', temperature = 0.7, maxTokens = 1500) {
+    return new Promise((resolve, reject) => {
+      const ws = new WebSocket(this.url);
+
+      const data = {
+        header: {
+          app_id: this.appid,
+          uid: 'user-001'
+        },
+        parameter: {
+          chat: {
+            domain: model,
+            temperature: temperature,
+            max_tokens: maxTokens
+          }
+        },
+        payload: {
+          message: {
+            text: messages
+          }
+        }
+      };
+
+      let responseText = '';
+
+      ws.on('open', () => {
+        ws.send(JSON.stringify(data));
+      });
+
+      ws.on('message', (data) => {
+        const parsed = JSON.parse(data);
+        if (parsed.header?.code === 0) {
+          const choices = parsed.payload?.choices;
+          if (choices?.status === 2) {
+            ws.close();
+            resolve(responseText);
+          }
+          const text = choices?.text;
+          if (text?.[0]?.content) {
+            responseText += text[0].content;
+          }
+        }
+      });
+
+      ws.on('error', reject);
+      ws.on('close', () => {
+        resolve(responseText);
+      });
+    });
+  }
+
+  async* streamChat(messages, model = 'spark-pro', temperature = 0.7, maxTokens = 1500) {
+    const ws = new WebSocket(this.url);
+    const chunks = [];
+    let isComplete = false;
+
+    const data = {
+      header: {
+        app_id: this.appid,
+        uid: 'user-001'
+      },
+      parameter: {
+        chat: {
+          domain: model,
+          temperature: temperature,
+          max_tokens: maxTokens
+        }
+      },
+      payload: {
+        message: {
+          text: messages
+        }
+      }
+    };
+
+    ws.on('open', () => {
+      ws.send(JSON.stringify(data));
+    });
+
+    ws.on('message', (data) => {
+      const parsed = JSON.parse(data);
+      if (parsed.header?.code === 0) {
+        const choices = parsed.payload?.choices;
+        if (choices?.status === 2) {
+          isComplete = true;
+          ws.close();
+        }
+        const text = choices?.text;
+        if (text?.[0]?.content) {
+          chunks.push(text[0].content);
+        }
+      }
+    });
+
+    ws.on('error', (error) => {
+      console.error('WebSocket error:', error);
+      isComplete = true;
+    });
+
+    while (!isComplete || chunks.length > 0) {
+      if (chunks.length > 0) {
+        yield chunks.shift();
+      } else if (!isComplete) {
+        await new Promise(r => setTimeout(r, 10));
+      } else {
+        break;
+      }
+    }
+  }
+}
+
+async function main() {
+  const client = new SparkClient(
+    process.env.APPID,
+    process.env.APISecret,
+    process.env.APIKey
+  );
+
+  const messages = [
+    { role: 'user', content: '你好！请帮我写一个Python函数来计算斐波那契数列。' }
+  ];
+
+  const response = await client.chat(messages, 'spark-pro');
+  console.log('Response:', response);
+
+  console.log('\\n流式响应:');
+  for await (const chunk of client.streamChat(
+    [{ role: 'user', content: '给我讲一个简短的故事' }],
+    'spark-lite'
+  )) {
+    process.stdout.write(chunk);
+  }
+  console.log();
+}
+
+main();`
+        },
+        curl: {
+          install: '无需安装，使用 WebSocket 客户端',
+          code: `# 讯飞星火使用 WebSocket 协议，建议使用 SDK
+# 以下是简单的 WebSocket 连接示例（需要先生成授权 URL）
+
+# 生成授权 URL 的步骤：
+# 1. 获取当前时间戳
+# 2. 生成签名
+# 3. 构建 WebSocket URL
+
+# 连接示例（使用 wscat）:
+wscat -c "wss://spark-api.xf-yun.com/v3.5/chat?authorization=YOUR_AUTHORIZATION&date=YOUR_DATE&host=spark-api.xf-yun.com"
+
+# 发送消息:
+{
+  "header": {
+    "app_id": "your-app-id",
+    "uid": "user-001"
+  },
+  "parameter": {
+    "chat": {
+      "domain": "spark-pro",
+      "temperature": 0.7,
+      "max_tokens": 1500
+    }
+  },
+  "payload": {
+    "message": {
+      "text": [
+        {"role": "user", "content": "你好！"}
+      ]
+    }
+  }
+}`
+        },
+        java: {
+          install: 'implementation "org.java-websocket:Java-WebSocket:1.5.3"',
+          setup: '// 创建 application.properties\nspark.appid=your-app-id\nspark.apiSecret=your-api-secret\nspark.apiKey=your-api-key',
+          code: `import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+public class SparkClient {
+    private String appid;
+    private String apiSecret;
+    private String apiKey;
+    private String url;
+
+    public SparkClient(String appid, String apiSecret, String apiKey) {
+        this.appid = appid;
+        this.apiSecret = apiSecret;
+        this.apiKey = apiKey;
+        this.url = generateUrl();
+    }
+
+    private String generateUrl() {
+        String host = "spark-api.xf-yun.com";
+        String path = "/v3.5/chat";
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+
+        String signatureOrigin = String.format("host: %s\\ndate: %s\\nGET %s HTTP/1.1", host, timestamp, path);
+        String signatureSha = hmacSHA256(signatureOrigin, apiSecret);
+        String authorizationOrigin = String.format("api_key=\"%s\", algorithm=\"hmac-sha256\", headers=\"host date request-line\", signature=\"%s\"", apiKey, signatureSha);
+        String authorization = Base64.getEncoder().encodeToString(authorizationOrigin.getBytes(StandardCharsets.UTF_8));
+
+        return String.format("wss://%s%s?authorization=%s&date=%s&host=%s", host, path, authorization, timestamp, host);
+    }
+
+    private String hmacSHA256(String data, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+            mac.init(secretKeySpec);
+            byte[] hash = mac.doFinal(data.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String chat(String messagesJson, String model, float temperature, int maxTokens) {
+        CountDownLatch latch = new CountDownLatch(1);
+        StringBuilder responseBuilder = new StringBuilder();
+
+        WebSocketClient wsClient = new WebSocketClient(URI.create(url)) {
+            @Override
+            public void onOpen(ServerHandshake handshakedata) {
+                String payload = String.format(
+                    "{\"header\":{\"app_id\":\"%s\",\"uid\":\"user-001\"},\"parameter\":{\"chat\":{\"domain\":\"%s\",\"temperature\":%f,\"max_tokens\":%d}},\"payload\":{\"message\":{\"text\":%s}}}",
+                    appid, model, temperature, maxTokens, messagesJson
+                );
+                send(payload);
+            }
+
+            @Override
+            public void onMessage(String message) {
+                try {
+                    Map<String, Object> data = parseJson(message);
+                    Map<String, Object> header = (Map<String, Object>) data.get("header");
+                    if (header != null && Integer.parseInt(header.get("code").toString()) == 0) {
+                        Map<String, Object> payload = (Map<String, Object>) data.get("payload");
+                        if (payload != null) {
+                            Map<String, Object> choices = (Map<String, Object>) payload.get("choices");
+                            if (choices != null && Integer.parseInt(choices.get("status").toString()) == 2) {
+                                latch.countDown();
+                            }
+                            Object text = choices.get("text");
+                            if (text != null) {
+                                Map<String, Object> textItem = ((Map<String, Object>[]) text)[0];
+                                responseBuilder.append(textItem.get("content"));
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onClose(int code, String reason, boolean remote) {
+                latch.countDown();
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                ex.printStackTrace();
+                latch.countDown();
+            }
+        };
+
+        wsClient.connect();
+        try {
+            latch.await(30, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        wsClient.close();
+
+        return responseBuilder.toString();
+    }
+
+    private Map<String, Object> parseJson(String json) {
+        return new HashMap<>();
+    }
+
+    public static void main(String[] args) {
+        SparkClient client = new SparkClient("your-app-id", "your-api-secret", "your-api-key");
+        
+        String messages = "[{\"role\":\"user\",\"content\":\"你好！请帮我写一个Python函数来计算斐波那契数列。\"}]";
+        
+        String response = client.chat(messages, "spark-pro", 0.7f, 1500);
+        System.out.println("Response: " + response);
+    }
+}`
+        }
+      }
+    },
     openclaw: {
       name: 'OpenClaw',
       icon: '🦾',
@@ -822,98 +1670,354 @@ public class HunyuanExample {
         cloud: '云端 API: ¥0.001/千tokens, 本地部署: 完全免费'
       },
       docs: 'https://docs.openclaw.ai',
+      quickStart: [
+        {
+          title: '1. 选择部署方式',
+          content: 'OpenClaw 支持两种部署方式：云端 API（快速开始）和本地部署（数据隐私保护）。'
+        },
+        {
+          title: '2. 云端 API 部署',
+          content: '访问 https://api.openclaw.ai 注册账号，创建应用并获取 API Key。'
+        },
+        {
+          title: '3. 本地部署',
+          content: '下载 OpenClaw 模型文件，使用 Docker 或 Python 部署到本地服务器。'
+        },
+        {
+          title: '4. 选择模型版本',
+          content: 'openclaw-7b（最快）、openclaw-13b（平衡）、openclaw-34b（最强）。'
+        },
+        {
+          title: '5. 安装 SDK',
+          content: '根据你的编程语言安装对应的 SDK。'
+        }
+      ],
+      productionTips: {
+        security: [
+          '使用环境变量存储 API Key',
+          '本地部署时设置访问控制',
+          '实施密钥轮换策略',
+          '使用 HTTPS 传输所有请求',
+          '为不同环境使用不同的 API Key'
+        ],
+        performance: [
+          '使用流式响应提升用户体验',
+          '实现请求重试机制',
+          '本地部署时使用 GPU 加速',
+          '批量处理请求',
+          '合理设置超时时间'
+        ],
+        cost: [
+          '根据任务复杂度选择合适的模型版本',
+          '本地部署可完全免费使用',
+          '设置 max_tokens 控制输出长度',
+          '优化 prompt 减少 token 使用',
+          '实现缓存机制'
+        ],
+        reliability: [
+          '实现错误处理和降级策略',
+          '设置速率限制',
+          '使用队列系统',
+          '记录详细日志',
+          '设置健康检查'
+        ]
+      },
       languages: {
         python: {
-          install: 'pip install openclaw',
-          code: `from openclaw import OpenClawClient
+          install: 'pip install openclaw python-dotenv',
+          setup: '# 创建 .env 文件\nOPENCLAW_API_KEY=your-api-key-here\nOPENCLAW_BASE_URL=https://api.openclaw.ai/v1',
+          code: `import os
+from openclaw import OpenClawClient
+from dotenv import load_dotenv
+import time
+from typing import Optional, List, Dict, Any
+import logging
 
-client = OpenClawClient(api_key="your-api-key")
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-response = client.chat(
-    model="openclaw-7b",
-    messages=[
+load_dotenv()
+
+class OpenClawClientWrapper:
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        base_url: Optional[str] = None,
+        max_retries: int = 3,
+        timeout: int = 60
+    ):
+        self.api_key = api_key or os.getenv("OPENCLAW_API_KEY")
+        self.base_url = base_url or os.getenv("OPENCLAW_BASE_URL", "https://api.openclaw.ai/v1")
+        self.max_retries = max_retries
+        self.timeout = timeout
+        
+        if not self.api_key:
+            raise ValueError("API Key is required")
+        
+        self.client = OpenClawClient(
+            api_key=self.api_key,
+            base_url=self.base_url,
+            timeout=self.timeout,
+            max_retries=max_retries
+        )
+    
+    def chat_completion(
+        self,
+        messages: List[Dict[str, str]],
+        model: str = "openclaw-7b",
+        temperature: float = 0.7,
+        max_tokens: int = 1500,
+        stream: bool = False,
+        **kwargs
+    ) -> Any:
+        for attempt in range(self.max_retries):
+            try:
+                logger.info(f"Sending request to {model}, attempt {attempt + 1}")
+                
+                response = self.client.chat(
+                    model=model,
+                    messages=messages,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    stream=stream,
+                    **kwargs
+                )
+                
+                if stream:
+                    return response
+                else:
+                    return response.choices[0].message.content
+                    
+            except Exception as e:
+                logger.error(f"Attempt {attempt + 1} failed: {str(e)}")
+                
+                if attempt == self.max_retries - 1:
+                    raise
+                
+                wait_time = (2 ** attempt) * 1
+                logger.info(f"Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+    
+    def stream_chat_completion(
+        self,
+        messages: List[Dict[str, str]],
+        model: str = "openclaw-7b",
+        **kwargs
+    ):
+        try:
+            stream = self.chat_completion(
+                messages=messages,
+                model=model,
+                stream=True,
+                **kwargs
+            )
+            
+            for chunk in stream:
+                if chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
+                    
+        except Exception as e:
+            logger.error(f"Stream error: {str(e)}")
+            raise
+
+if __name__ == "__main__":
+    client = OpenClawClientWrapper()
+    
+    messages = [
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello! Can you help me?"}
-    ],
-    temperature=0.7,
-    max_tokens=150
-)
-
-print(response.choices[0].message.content)
-
-# 流式响应示例
-stream = client.chat(
-    model="openclaw-7b",
-    messages=[{"role": "user", "content": "Tell me a story"}],
-    stream=True
-)
-
-for chunk in stream:
-    if chunk.choices[0].delta.content:
-        print(chunk.choices[0].delta.content, end="", flush=True)
+    ]
+    
+    response = client.chat_completion(
+        messages=messages,
+        model="openclaw-7b",
+        temperature=0.3,
+        max_tokens=1000
+    )
+    
+    print("Response:", response)
+    
+    print("\\n流式响应:")
+    for chunk in client.stream_chat_completion(
+        messages=[{"role": "user", "content": "Tell me a story"}],
+        model="openclaw-7b"
+    ):
+        print(chunk, end="", flush=True)
+    print()
 
 # 本地部署示例（使用 Hugging Face Transformers）
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
 
-model_name = "openclaw/openclaw-7b"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+class LocalOpenClaw:
+    def __init__(self, model_name: str = "openclaw/openclaw-7b"):
+        logger.info(f"Loading model: {model_name}")
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+            device_map="auto" if torch.cuda.is_available() else None
+        )
+        logger.info("Model loaded successfully")
+    
+    def generate(
+        self,
+        prompt: str,
+        max_length: int = 200,
+        temperature: float = 0.7,
+        top_p: float = 0.9
+    ) -> str:
+        inputs = self.tokenizer(prompt, return_tensors="pt")
+        
+        if torch.cuda.is_available():
+            inputs = {k: v.cuda() for k, v in inputs.items()}
+        
+        with torch.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_length=max_length,
+                temperature=temperature,
+                top_p=top_p,
+                do_sample=True,
+                pad_token_id=self.tokenizer.eos_token_id
+            )
+        
+        response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        return response[len(prompt):]
 
-input_text = "Hello! Can you help me?"
-inputs = tokenizer(input_text, return_tensors="pt")
-
-outputs = model.generate(**inputs, max_length=100)
-response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-print(response)`
+if __name__ == "__main__":
+    local_client = LocalOpenClaw()
+    
+    prompt = "Hello! Can you help me?"
+    response = local_client.generate(prompt, max_length=150)
+    print("Response:", response)`
         },
         javascript: {
-          install: 'npm install openclaw',
-          code: `import { OpenClawClient } from 'openclaw';
+          install: 'npm install openclaw dotenv',
+          setup: '// 创建 .env 文件\nOPENCLAW_API_KEY=your-api-key-here\nOPENCLAW_BASE_URL=https://api.openclaw.ai/v1',
+          code: `require('dotenv').config();
+const { OpenClawClient } = require('openclaw');
 
-const client = new OpenClawClient({
-  apiKey: 'your-api-key'
-});
-
-async function chat() {
-  const response = await client.chat({
-    model: 'openclaw-7b',
-    messages: [
-      { role: 'system', content: 'You are a helpful assistant.' },
-      { role: 'user', content: 'Hello! Can you help me?' }
-    ],
-    temperature: 0.7,
-    maxTokens: 150
-  });
-
-  console.log(response.choices[0].message.content);
-}
-
-chat();
-
-// 流式响应示例
-async function streamChat() {
-  const stream = await client.chat({
-    model: 'openclaw-7b',
-    messages: [
-      { role: 'user', content: 'Tell me a story' }
-    ],
-    stream: true
-  });
-
-  for await (const chunk of stream) {
-    if (chunk.choices[0]?.delta?.content) {
-      process.stdout.write(chunk.choices[0].delta.content);
+class OpenClawClientWrapper {
+  constructor(options = {}) {
+    this.apiKey = options.apiKey || process.env.OPENCLAW_API_KEY;
+    this.baseUrl = options.baseUrl || process.env.OPENCLAW_BASE_URL || 'https://api.openclaw.ai/v1';
+    this.maxRetries = options.maxRetries || 3;
+    this.timeout = options.timeout || 60000;
+    
+    if (!this.apiKey) {
+      throw new Error('API Key is required');
     }
+    
+    this.client = new OpenClawClient({
+      apiKey: this.apiKey,
+      baseUrl: this.baseUrl,
+      timeout: this.timeout,
+      maxRetries: this.maxRetries
+    });
+  }
+  
+  async chatCompletion(messages, options = {}) {
+    const {
+      model = 'openclaw-7b',
+      temperature = 0.7,
+      maxTokens = 1500,
+      stream = false,
+      ...kwargs
+    } = options;
+    
+    for (let attempt = 0; attempt < this.maxRetries; attempt++) {
+      try {
+        console.log('Sending request to ' + model + ', attempt ' + (attempt + 1));
+        
+        const response = await this.client.chat({
+          model,
+          messages,
+          temperature,
+          maxTokens,
+          stream,
+          ...kwargs
+        });
+        
+        if (stream) {
+          return response;
+        } else {
+          return response.choices[0].message.content;
+        }
+      } catch (error) {
+        console.error('Attempt ' + (attempt + 1) + ' failed:', error.message);
+        
+        if (attempt === this.maxRetries - 1) {
+          throw error;
+        }
+        
+        const waitTime = Math.pow(2, attempt) * 1000;
+        console.log('Retrying in ' + waitTime + 'ms...');
+        await this.sleep(waitTime);
+      }
+    }
+  }
+  
+  async* streamChatCompletion(messages, options = {}) {
+    try {
+      const stream = await this.chatCompletion(messages, {
+        ...options,
+        stream: true
+      });
+      
+      for await (const chunk of stream) {
+        if (chunk.choices[0]?.delta?.content) {
+          yield chunk.choices[0].delta.content;
+        }
+      }
+    } catch (error) {
+      console.error('Stream error:', error);
+      throw error;
+    }
+  }
+  
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
 
-streamChat();`
+async function main() {
+  const client = new OpenClawClientWrapper();
+  
+  const messages = [
+    { role: 'system', content: 'You are a helpful assistant.' },
+    { role: 'user', content: 'Hello! Can you help me?' }
+  ];
+  
+  const response = await client.chatCompletion(messages, {
+    model: 'openclaw-7b',
+    temperature: 0.3,
+    maxTokens: 1000
+  });
+  
+  console.log('Response:', response);
+  
+  console.log('\\n流式响应:');
+  for await (const chunk of client.streamChatCompletion(
+    [{ role: 'user', content: 'Tell me a story' }],
+    { model: 'openclaw-7b' }
+  )) {
+    process.stdout.write(chunk);
+  }
+  console.log();
+}
+
+main();`
         },
         curl: {
           install: '无需安装，使用 cURL 命令',
-          code: `curl https://api.openclaw.ai/v1/chat/completions \\
+          setup: '# 设置环境变量\nexport OPENCLAW_API_KEY="your-api-key-here"\nexport OPENCLAW_BASE_URL="https://api.openclaw.ai/v1"',
+          code: `# OpenClaw API 兼容 OpenAI API 格式
+
+# 基础请求示例
+curl -X POST "$OPENCLAW_BASE_URL/chat/completions" \\
   -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer your-api-key" \\
+  -H "Authorization: Bearer $OPENCLAW_API_KEY" \\
   -d '{
     "model": "openclaw-7b",
     "messages": [
@@ -922,31 +2026,218 @@ streamChat();`
     ],
     "temperature": 0.7,
     "max_tokens": 150
-  }'`
+  }'
+
+# 流式响应示例
+curl -X POST "$OPENCLAW_BASE_URL/chat/completions" \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer $OPENCLAW_API_KEY" \\
+  -d '{
+    "model": "openclaw-7b",
+    "messages": [
+      {"role": "user", "content": "Tell me a story"}
+    ],
+    "stream": true,
+    "temperature": 0.7,
+    "max_tokens": 500
+  }'
+
+# 带重试机制的脚本示例
+#!/bin/bash
+
+API_KEY="$OPENCLAW_API_KEY"
+BASE_URL="$OPENCLAW_BASE_URL"
+MAX_RETRIES=3
+RETRY_DELAY=2
+
+make_request() {
+  local attempt=1
+  local messages="$1"
+  
+  while [ $attempt -le $MAX_RETRIES ]; do
+    echo "Attempt $attempt..."
+    
+    response=$(curl -s -X POST "$BASE_URL/chat/completions" \\
+      -H "Content-Type: application/json" \\
+      -H "Authorization: Bearer $API_KEY" \\
+      -d "$messages" \\
+      -w "\\n%{http_code}")
+    
+    http_code=$(echo "$response" | tail -n1)
+    body=$(echo "$response" | sed '$d')
+    
+    if [ "$http_code" = "200" ]; then
+      echo "$body" | jq -r '.choices[0].message.content'
+      return 0
+    fi
+    
+    echo "Request failed with HTTP code: $http_code"
+    
+    if [ $attempt -lt $MAX_RETRIES ]; then
+      echo "Retrying in $RETRY_DELAY s..."
+      sleep $RETRY_DELAY
+    fi
+    
+    attempt=$((attempt + 1))
+  done
+  
+  echo "Max retries reached. Giving up."
+  return 1
+}
+
+# 使用示例
+messages='{
+  "model": "openclaw-7b",
+  "messages": [
+    {"role": "user", "content": "Hello! Can you help me?"}
+  ],
+  "temperature": 0.7,
+  "max_tokens": 150
+}'
+
+make_request "$messages"`
         },
         java: {
           install: 'implementation "ai.openclaw:openclaw-java-sdk"',
+          setup: '// 创建 application.properties\nopenclaw.apiKey=your-api-key-here\nopenclaw.baseUrl=https://api.openclaw.ai/v1',
           code: `import ai.openclaw.OpenClawClient;
 import ai.openclaw.models.*;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.io.IOException;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
-public class OpenClawExample {
+public class OpenClawClientWrapper {
+    private String apiKey;
+    private String baseUrl;
+    private OpenClawClient client;
+    private int maxRetries;
+    private long retryDelay;
+
+    public OpenClawClientWrapper() {
+        this.loadConfig();
+        this.client = new OpenClawClient(this.apiKey);
+        this.maxRetries = 3;
+        this.retryDelay = 2000;
+    }
+
+    private void loadConfig() {
+        try (InputStream input = new FileInputStream("application.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+            this.apiKey = prop.getProperty("openclaw.apiKey");
+            this.baseUrl = prop.getProperty("openclaw.baseUrl", "https://api.openclaw.ai/v1");
+            
+            if (this.apiKey == null || this.apiKey.isEmpty()) {
+                throw new RuntimeException("API Key is required");
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException("Failed to load configuration", ex);
+        }
+    }
+
+    public String chatCompletion(List<Message> messages, String model, 
+                                float temperature, int maxTokens) {
+        for (int attempt = 0; attempt < maxRetries; attempt++) {
+            try {
+                System.out.println("Sending request to " + model + ", attempt " + (attempt + 1));
+                
+                ChatRequest request = new ChatRequest();
+                request.setModel(model);
+                request.setTemperature(temperature);
+                request.setMaxTokens(maxTokens);
+                request.setMessages(messages);
+                
+                ChatResponse response = client.chat(request);
+                return response.getChoices().get(0).getMessage().getContent();
+                
+            } catch (Exception e) {
+                System.err.println("Attempt " + (attempt + 1) + " failed: " + e.getMessage());
+                
+                if (attempt == maxRetries - 1) {
+                    throw new RuntimeException("Max retries reached", e);
+                }
+                
+                try {
+                    long delay = (long) (retryDelay * Math.pow(2, attempt));
+                    System.out.println("Retrying in " + delay + "ms...");
+                    TimeUnit.MILLISECONDS.sleep(delay);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new RuntimeException("Interrupted during retry", ie);
+                }
+            }
+        }
+        throw new RuntimeException("Failed to complete request");
+    }
+
+    public List<String> streamChatCompletion(List<Message> messages, String model,
+                                             float temperature, int maxTokens) {
+        List<String> chunks = new ArrayList<>();
+        
+        try {
+            ChatRequest request = new ChatRequest();
+            request.setModel(model);
+            request.setTemperature(temperature);
+            request.setMaxTokens(maxTokens);
+            request.setMessages(messages);
+            request.setStream(true);
+            
+            ChatResponse response = client.chat(request);
+            
+            for (Chunk chunk : response.getChunks()) {
+                if (chunk.getChoices() != null && !chunk.getChoices().isEmpty()) {
+                    String content = chunk.getChoices().get(0).getDelta().getContent();
+                    if (content != null && !content.isEmpty()) {
+                        chunks.add(content);
+                    }
+                }
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Stream error: " + e.getMessage());
+            throw new RuntimeException("Stream failed", e);
+        }
+        
+        return chunks;
+    }
+
     public static void main(String[] args) {
-        String apiKey = "your-api-key";
+        OpenClawClientWrapper client = new OpenClawClientWrapper();
         
-        OpenClawClient client = new OpenClawClient(apiKey);
-        
-        ChatRequest request = new ChatRequest();
-        request.setModel("openclaw-7b");
-        request.setTemperature(0.7);
-        request.setMaxTokens(150);
-        
-        java.util.List<Message> messages = new java.util.ArrayList<>();
+        List<Message> messages = new ArrayList<>();
         messages.add(new Message("system", "You are a helpful assistant."));
         messages.add(new Message("user", "Hello! Can you help me?"));
-        request.setMessages(messages);
         
-        ChatResponse response = client.chat(request);
-        System.out.println(response.getChoices().get(0).getMessage().getContent());
+        try {
+            String response = client.chatCompletion(
+                messages, 
+                "openclaw-7b", 
+                0.7f, 
+                1500
+            );
+            
+            System.out.println("Response: " + response);
+            
+            System.out.println("\\n流式响应:");
+            List<String> streamChunks = client.streamChatCompletion(
+                Arrays.asList(new Message("user", "Tell me a story")),
+                "openclaw-7b",
+                0.7f,
+                500
+            );
+            
+            for (String chunk : streamChunks) {
+                System.out.print(chunk);
+            }
+            System.out.println();
+            
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }`
         }
@@ -1015,8 +2306,20 @@ public class OpenClawExample {
           </div>
         </div>
 
+        <div className="steps-section-large">
+          <h2 className="section-title">快速入门</h2>
+          <div className="quick-steps">
+            {model.quickStart && model.quickStart.map((step, index) => (
+              <div key={index} className="quick-step-card">
+                <h3 className="quick-step-title">{step.title}</h3>
+                <p className="quick-step-content">{step.content}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="integration-section">
-          <h2 className="section-title">接入方法</h2>
+          <h2 className="section-title">代码示例</h2>
           
           <div className="language-tabs">
             {Object.keys(model.languages).map((lang) => (
@@ -1043,57 +2346,59 @@ public class OpenClawExample {
                 复制代码
               </button>
             </div>
+            {activeLanguageData.setup && (
+              <div className="setup-block">
+                <span className="setup-label">环境配置:</span>
+                <pre><code>{activeLanguageData.setup}</code></pre>
+              </div>
+            )}
             <pre className="code-block-large">
               <code>{activeLanguageData.code}</code>
             </pre>
           </div>
         </div>
 
-        <div className="steps-section-large">
-          <h2 className="section-title">接入步骤</h2>
-          <ol className="steps-list-large">
-            <li>
-              <strong>注册账号:</strong> 访问 {model.provider} 官网注册开发者账号
-            </li>
-            <li>
-              <strong>获取 API Key:</strong> 在控制台创建应用并获取 API Key 或访问令牌
-            </li>
-            <li>
-              <strong>安装 SDK:</strong> 根据您的编程语言安装对应的 SDK
-            </li>
-            <li>
-              <strong>配置环境:</strong> 将 API Key 配置到您的应用环境中
-            </li>
-            <li>
-              <strong>调用 API:</strong> 使用提供的代码示例开始调用 API
-            </li>
-            <li>
-              <strong>测试验证:</strong> 测试接口调用是否正常，验证返回结果
-            </li>
-          </ol>
-        </div>
-
-        <div className="tips-section">
-          <h2 className="section-title">最佳实践</h2>
-          <div className="tips-grid">
-            <div className="tip-card">
+        {model.productionTips && (
+          <div className="production-tips-section">
+            <h2 className="section-title">生产环境最佳实践</h2>
+            
+            <div className="tips-category">
               <h3>🔒 安全性</h3>
-              <p>不要在前端代码中硬编码 API Key，使用环境变量或密钥管理服务</p>
+              <ul>
+                {model.productionTips.security.map((tip, index) => (
+                  <li key={index}>{tip}</li>
+                ))}
+              </ul>
             </div>
-            <div className="tip-card">
+
+            <div className="tips-category">
               <h3>⚡ 性能优化</h3>
-              <p>使用流式响应提升用户体验，合理设置 max_tokens 控制成本</p>
+              <ul>
+                {model.productionTips.performance.map((tip, index) => (
+                  <li key={index}>{tip}</li>
+                ))}
+              </ul>
             </div>
-            <div className="tip-card">
-              <h3>🎯 参数调优</h3>
-              <p>根据任务类型调整 temperature 和 top_p 参数，平衡创造性和准确性</p>
+
+            <div className="tips-category">
+              <h3>💰 成本控制</h3>
+              <ul>
+                {model.productionTips.cost.map((tip, index) => (
+                  <li key={index}>{tip}</li>
+                ))}
+              </ul>
             </div>
-            <div className="tip-card">
-              <h3>📊 错误处理</h3>
-              <p>实现完善的错误处理机制，包括重试逻辑和降级策略</p>
+
+            <div className="tips-category">
+              <h3>🛡️ 可靠性</h3>
+              <ul>
+                {model.productionTips.reliability.map((tip, index) => (
+                  <li key={index}>{tip}</li>
+                ))}
+              </ul>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

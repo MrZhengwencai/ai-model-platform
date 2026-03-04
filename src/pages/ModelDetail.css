@@ -259,6 +259,117 @@
   margin-bottom: 3rem;
 }
 
+.quick-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.quick-step-card {
+  background: rgba(20, 20, 40, 0.6);
+  border: 1px solid rgba(100, 100, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.quick-step-card:hover {
+  border-color: rgba(100, 108, 255, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(100, 108, 255, 0.1);
+}
+
+.quick-step-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #646cff;
+  margin-bottom: 0.8rem;
+}
+
+.quick-step-content {
+  color: #b4b4b4;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.setup-block {
+  background: rgba(10, 10, 20, 0.8);
+  border-bottom: 1px solid rgba(100, 100, 255, 0.1);
+  padding: 1.5rem;
+}
+
+.setup-label {
+  color: #a855f7;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.setup-block pre {
+  margin: 0;
+}
+
+.setup-block code {
+  font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+  font-size: 0.85rem;
+  color: #e0e0e0;
+  line-height: 1.5;
+}
+
+.production-tips-section {
+  margin-bottom: 3rem;
+}
+
+.tips-category {
+  background: rgba(20, 20, 40, 0.6);
+  border: 1px solid rgba(100, 100, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tips-category:last-child {
+  margin-bottom: 0;
+}
+
+.tips-category h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.tips-category ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tips-category li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.6rem;
+  color: #b4b4b4;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.tips-category li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #646cff;
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.tips-category li:last-child {
+  margin-bottom: 0;
+}
+
 .steps-list-large {
   list-style: none;
   padding: 0;
