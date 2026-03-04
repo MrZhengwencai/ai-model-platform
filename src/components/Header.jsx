@@ -23,9 +23,6 @@ function Header() {
           <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
             <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>首页</Link>
             <Link to="/components" className={`nav-link ${isActive('/components') ? 'active' : ''}`}>组件库</Link>
-            <a href="#features" className="nav-link">支持模型</a>
-            <a href="#integrations" className="nav-link">接入方法</a>
-            <Link to="/components" className="cta-button">开始接入</Link>
           </nav>
           <button 
             className={`menu-toggle ${isMenuOpen ? 'menu-open' : ''}`}
